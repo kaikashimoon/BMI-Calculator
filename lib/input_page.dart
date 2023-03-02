@@ -22,6 +22,8 @@ class _InputPageState extends State<InputPage> {
 
     Gender? selectedGender;
     int height = 180;
+    int weight = 60;
+    int age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class _InputPageState extends State<InputPage> {
             cardChild: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('HEIGHT',
+                const Text('HEIGHT',
                 style: kLabelTextStyle,
                 ),
                 Row(
@@ -84,7 +86,7 @@ class _InputPageState extends State<InputPage> {
                       height.toString(),
                       style: kNumberTextStyle
                     ),
-                    Text(
+                    const Text(
                       'cm',
                       style: kLabelTextStyle,
                     ),
@@ -93,17 +95,17 @@ class _InputPageState extends State<InputPage> {
                 ),
                 SliderTheme(
                   data: SliderTheme.of(context).copyWith(
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
-                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
-                    thumbColor: Color(0xFFEB1555),
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 30.0),
+                    thumbColor: const Color(0xFFEB1555),
                     activeTrackColor: Colors.white,
-                    overlayColor: Color(0x29EB1555)
+                    overlayColor: const Color(0x29EB1555)
                   ),
                   child: Slider(
-                      value: height?.toDouble() ?? 0,
+                      value: height.toDouble(),
                       min: 120.0,
                       max: 220.0,
-                      inactiveColor: Color(0xFF8D8E98),
+                      inactiveColor: const Color(0xFF8D8E98),
                       onChanged: (double newValue){
                           setState(() {
                             height = newValue.round();
@@ -115,26 +117,121 @@ class _InputPageState extends State<InputPage> {
             )
           ),
             Expanded(child:  Row(
-              children: const [
+              children:  [
                Expanded(child: ReusableCard(
-                 colour: kActiveCardColour
+                 colour: kActiveCardColour,
+                 cardChild: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: [
+                        const Text('WEIGHT',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          weight.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIcon(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIcon(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                   ],
+                 ),
                )
               ),
                 Expanded(child: ReusableCard(
-                  colour: kActiveCardColour
+                  colour: kActiveCardColour,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('AGE',
+                        style: kLabelTextStyle,
+                      ),
+                      Text(
+                        age.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RoundIcon(
+                            icon: FontAwesomeIcons.plus,
+                            onPressed: () {
+                              setState(() {
+                                age--;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          RoundIcon(
+                            icon: FontAwesomeIcons.minus,
+                            onPressed: () {
+                              setState(() {
+                                age++;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
-              )
+                ),
+
             ],
           )
           ),
           Container(
             color: kBottomContainerColour,
-            margin: EdgeInsets.only(top:10.0),
+            margin: const EdgeInsets.only(top:10.0),
             width: double.infinity,
             height: kBottomContainerHeight,
           )
         ],
       )
+    );
+  }
+}
+
+class RoundIcon extends StatelessWidget{
+  const RoundIcon({super.key, this.icon, this.onPressed});
+
+  final IconData? icon;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      shape: const CircleBorder(),
+      fillColor: const Color(0xFF4C4F5E),
+      constraints: const BoxConstraints.tightFor(
+        width: 56.0,
+        height: 56.0
+      ),
+      elevation: 6.0,
+      child: Icon(icon),
     );
   }
 }
